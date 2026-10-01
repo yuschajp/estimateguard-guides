@@ -35,6 +35,12 @@ button.primary:disabled{opacity:.55;cursor:wait}
 .flag.normal{background:#e9f7ee;color:#14703c}
 .flag.no_data{background:var(--wash);color:var(--muted)}
 .err{background:#fdeeee;border:1px solid #f3b8b8;border-radius:10px;padding:16px 18px;color:#a12020}
+.sharebox{border:1px solid var(--line);border-radius:10px;padding:18px 20px;margin:24px 0;background:#fff}
+.sharebox h2{margin-top:0}
+.sharebox textarea{min-height:88px}
+.sharebtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;align-items:center}
+.sharebtns button,.sharebtns a.abtn{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--wash);color:var(--ink);border-radius:8px;padding:9px 16px;cursor:pointer;text-decoration:none}
+.sharebtns button:hover,.sharebtns a.abtn:hover{border-color:var(--accent)}
 @media(max-width:640px){.form-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -157,7 +163,41 @@ function render(data){
   if(data.quoted_total) html += " &middot; quoted total: $"+esc(data.quoted_total);
   if(data.total_discrepancy) html += " &middot; difference: $"+esc(data.total_discrepancy);
   html += "<br>Benchmarks are published cost-guide data (sample size 0), never contractor invoices.</p>";
+
+  // Shareable verdict: every result becomes distribution.
+  const tradeEl = document.getElementById("trade");
+  const tradeName = tradeEl.value ? tradeEl.options[tradeEl.selectedIndex].text.toLowerCase() : "contractor";
+  const zipVal = document.getElementById("zip").value.trim();
+  const shareTotal = data.quoted_total || data.computed_total;
+  const verdictPlain = {within_range:"WITHIN the typical range",below_range:"BELOW the typical range",above_range:"ABOVE the typical range",insufficient_data:"couldn't be fully rated (not enough local data)"}[data.overall_flag] || "checked";
+  const pageUrl = "https://yuschajp.github.io/estimateguard-guides/estimate-checker.html";
+  const shareText = "I checked my $"+shareTotal+" "+tradeName+" quote (ZIP "+zipVal+") on EstimateGuard \u2014 verdict: "+verdictPlain+". Check your contractor's quote free:";
+  html += "<div class='sharebox'><h2>Share this result</h2>"
+    + "<p class='hint'>Posting your verdict helps other homeowners spot unfair quotes \u2014 and it's how a free tool like this grows. Only the totals and verdict are shared; your estimate text and personal details stay private.</p>"
+    + "<textarea id='sharetext' readonly>"+esc(shareText+" "+pageUrl)+"</textarea>"
+    + "<div class='sharebtns'>"
+    + (navigator.share ? "<button type='button' id='sharenative'>Share\u2026</button>" : "")
+    + "<button type='button' id='sharecopy'>Copy text</button>"
+    + "<a class='abtn' target='_blank' rel='noopener' href='https://twitter.com/intent/tweet?text="+encodeURIComponent(shareText+" "+pageUrl)+"'>Post to X</a>"
+    + "<a class='abtn' target='_blank' rel='noopener' href='https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(pageUrl)+"'>Facebook</a>"
+    + "<a class='abtn' target='_blank' rel='noopener' href='https://www.reddit.com/submit?url="+encodeURIComponent(pageUrl)+"&title="+encodeURIComponent(shareText.slice(0,280))+"'>Reddit</a>"
+    + "</div></div>";
+
   result.innerHTML = html;
+
+  const shareBox = document.getElementById("sharetext");
+  const copyBtn = document.getElementById("sharecopy");
+  copyBtn.addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText(shareBox.value); }
+    catch(_){ shareBox.select(); document.execCommand("copy"); }
+    copyBtn.textContent = "Copied!";
+    setTimeout(()=>{ copyBtn.textContent = "Copy text"; },2000);
+  });
+  const nativeBtn = document.getElementById("sharenative");
+  if(nativeBtn) nativeBtn.addEventListener("click", ()=>{
+    navigator.share({title:"EstimateGuard result",text:shareText,url:pageUrl}).catch(()=>{});
+  });
+
   result.scrollIntoView({behavior:"smooth",block:"start"});
 }
 
