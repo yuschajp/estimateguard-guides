@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BINSR Mission Control</title>
+<style>
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif; background:#f6f7f9; color:#111; }
+  .wrap { max-width:1080px; margin:0 auto; padding:20px; }
+  h1 { margin:0 0 4px; font-size:24px; }
+  .upd { color:#666; font-size:13px; margin-bottom:16px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:20px; }
+  .card { background:#fff; border-radius:12px; padding:14px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+  .num { font-size:28px; font-weight:700; }
+  .lbl { font-size:12px; color:#555; text-transform:uppercase; letter-spacing:.04em; }
+  .sub { font-size:11px; color:#888; }
+  section { background:#fff; border-radius:12px; padding:16px; margin-bottom:16px; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+  h2 { margin:0 0 10px; font-size:16px; }
+  table { border-collapse:collapse; width:100%; font-size:13px; }
+  th, td { border-bottom:1px solid #eee; padding:8px; text-align:left; }
+  th { color:#555; font-weight:600; }
+  .mut { color:#888; font-size:12px; }
+  .frow { display:flex; align-items:center; gap:10px; margin:6px 0; font-size:13px; }
+  .fname { width:90px; color:#555; }
+  .fbar { flex:1; background:#eef0f3; border-radius:6px; height:14px; }
+  .ffill { background:#3b82f6; height:14px; border-radius:6px; }
+  .fnum { width:40px; text-align:right; font-weight:600; }
+  ul.act { margin:0; padding-left:18px; font-size:13px; }
+  ul.act li { margin:4px 0; }
+  iframe.map { width:100%; height:520px; border:0; border-radius:8px; }
+  a { color:#2563eb; }
+</style></head><body><div class="wrap">
+  <h1>BINSR Mission Control</h1>
+  <div class="upd">Updated 2026-10-02 10:08 PM ET &middot; <a href="binsr-coverage-map.html">open coverage map fullscreen</a></div>
+
+  <div class="cards">
+    <div class="card"><div class="num">93</div><div class="lbl">Total leads</div><div class="sub">52 emailable</div></div>
+    <div class="card"><div class="num">1</div><div class="lbl">Emailed</div><div class="sub">crew sends ≤5/day</div></div>
+    <div class="card"><div class="num">0</div><div class="lbl">Replied</div><div class="sub">from pipeline review</div></div>
+    <div class="card"><div class="num">0</div><div class="lbl">Paid</div><div class="sub">$0 revenue</div></div>
+    <div class="card"><div class="num">3</div><div class="lbl">Queued</div><div class="sub">texts on Joe's phone</div></div>
+  </div>
+
+  <section><h2>Pipeline funnel</h2><div class="frow"><span class="fname">new</span><div class="fbar"><div class="ffill" style="width:94.6%"></div></div><span class="fnum">88</span></div><div class="frow"><span class="fname">queued</span><div class="fbar"><div class="ffill" style="width:3.2%"></div></div><span class="fnum">3</span></div><div class="frow"><span class="fname">emailed</span><div class="fbar"><div class="ffill" style="width:1.1%"></div></div><span class="fnum">1</span></div></section>
+
+  <section><h2>Crew status</h2>
+    <table><tr><th>Crew</th><th>Last run</th><th>When</th><th>Next run</th></tr><tr><td><b>Churn crew</b><br><span class='mut'>Finds new leads across 14 metros</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td><b>Outreach crew</b><br><span class='mut'>Sends up to 5 personalized emails/day</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td><b>Pipeline review</b><br><span class='mut'>Nightly reply/bounce check + status sync</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr><tr><td><b>Map refresh</b><br><span class='mut'>Rebuilds the coverage map</span></td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr></table>
+  </section>
+
+  <section><h2>Coverage map</h2>
+    <iframe class="map" src="binsr-coverage-map.html"></iframe>
+  </section>
+
+  <section><h2>Leads by metro</h2>
+    <table><tr><th>Metro</th><th>Leads</th><th>Emailed</th><th>Replied</th><th>Paid</th></tr><tr><td>Phoenix</td><td>9</td><td>1</td><td>0</td><td>0</td></tr><tr><td>Miami</td><td>8</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Chicago</td><td>7</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Los Angeles</td><td>7</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Seattle</td><td>7</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Denver</td><td>7</td><td>0</td><td>0</td><td>0</td></tr><tr><td>NYC</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Boston</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Washington DC</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Dallas-Fort Worth</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Atlanta</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Austin</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>Houston</td><td>6</td><td>0</td><td>0</td><td>0</td></tr><tr><td>San Francisco</td><td>6</td><td>0</td><td>0</td><td>0</td></tr></table>
+  </section>
+
+  <section><h2>Recent activity</h2><ul class="act"><li><b>Brian Ramsey</b> (Equity Star Realty) — emailed <span class='mut'>2026-10-02</span></li><li><b>Ernie Raulli</b> (Realistic Realty) — form_sent <span class='mut'>2026-10-02</span></li></ul></section>
+</div></body></html>
