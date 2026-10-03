@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BINSR Coverage Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  body { margin:0; font-family:-apple-system,Segoe UI,Roboto,sans-serif; }
+  #map { height:100vh; }
+  .hdr { position:absolute; top:12px; left:12px; z-index:1000; background:#fff;
+          padding:10px 14px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,.15); }
+  .hdr h1 { margin:0 0 4px; font-size:16px; }
+  .hdr p { margin:2px 0; font-size:12px; color:#555; }
+  .lg { display:flex; gap:10px; flex-wrap:wrap; margin-top:6px; font-size:11px; }
+  .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:4px; }
+</style></head><body>
+<div class="hdr">
+  <h1>BINSR coverage &mdash; regions hit</h1>
+  <p>81 leads &middot; 1 emailed &middot; updated 2026-10-02 09:39 PM ET</p>
+  <div class="lg">
+    <span><span class="dot" style="background:#9ca3af"></span>leads</span>
+    <span><span class="dot" style="background:#3b82f6"></span>emailed</span>
+    <span><span class="dot" style="background:#22c55e"></span>replied</span>
+    <span><span class="dot" style="background:#eab308"></span>paid</span>
+    <span><span class="dot" style="background:#fff;border:2px dashed #6b7280"></span>pilot</span>
+  </div>
+  <p style="font-size:10px;color:#888">Pins are approximate metro centers.</p>
+</div>
+<div id="map"></div>
+<script>
+const feats = [{"metro": "Phoenix", "lat": 33.45, "lng": -112.07, "total": 9, "with_email": 7, "emailed": 1, "replied": 0, "paid": 0, "color": "#3b82f6", "pilot": false, "radius": 18}, {"metro": "Miami", "lat": 25.76, "lng": -80.19, "total": 8, "with_email": 3, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 17}, {"metro": "Atlanta", "lat": 33.75, "lng": -84.39, "total": 6, "with_email": 3, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Austin", "lat": 30.27, "lng": -97.74, "total": 6, "with_email": 5, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Houston", "lat": 29.76, "lng": -95.37, "total": 6, "with_email": 2, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "NYC", "lat": 40.71, "lng": -74.0, "total": 6, "with_email": 3, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Boston", "lat": 42.36, "lng": -71.06, "total": 6, "with_email": 1, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Washington DC", "lat": 38.9, "lng": -77.04, "total": 0, "with_email": 0, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 9}, {"metro": "Chicago", "lat": 41.88, "lng": -87.63, "total": 7, "with_email": 2, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Dallas-Fort Worth", "lat": 32.78, "lng": -96.8, "total": 0, "with_email": 0, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 9}, {"metro": "Los Angeles", "lat": 34.05, "lng": -118.24, "total": 7, "with_email": 4, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "San Francisco", "lat": 37.77, "lng": -122.42, "total": 6, "with_email": 4, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Seattle", "lat": 47.61, "lng": -122.33, "total": 7, "with_email": 6, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Denver", "lat": 39.74, "lng": -104.99, "total": 7, "with_email": 5, "emailed": 0, "replied": 0, "paid": 0, "color": "#9ca3af", "pilot": false, "radius": 16}, {"metro": "Toronto", "lat": 43.65, "lng": -79.38, "total": 0, "with_email": 0, "emailed": 0, "replied": 0, "paid": 0, "color": "#6b7280", "pilot": true, "radius": 6}, {"metro": "London", "lat": 51.5, "lng": -0.13, "total": 0, "with_email": 0, "emailed": 0, "replied": 0, "paid": 0, "color": "#6b7280", "pilot": true, "radius": 6}, {"metro": "Sydney", "lat": -33.87, "lng": 151.21, "total": 0, "with_email": 0, "emailed": 0, "replied": 0, "paid": 0, "color": "#6b7280", "pilot": true, "radius": 6}];
+const map = L.map('map').setView([30, -40], 2);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  {attribution:'&copy; OpenStreetMap &copy; CARTO'}).addTo(map);
+feats.forEach(f => {
+  const opts = f.pilot
+    ? {radius:f.radius, color:'#6b7280', weight:2, dashArray:'4 4', fillOpacity:0}
+    : {radius:f.radius, color:f.color, weight:2, fillColor:f.color, fillOpacity:0.55};
+  const m = L.circleMarker([f.lat, f.lng], opts).addTo(map);
+  const body = f.pilot
+    ? `<b>${f.metro}</b><br>pilot market &mdash; scouting`
+    : `<b>${f.metro}</b><br>${f.total} leads (${f.with_email} with email)<br>` +
+      `emailed: ${f.emailed} &middot; replied: ${f.replied} &middot; paid: ${f.paid}`;
+  m.bindPopup(body);
+});
+</script></body></html>
